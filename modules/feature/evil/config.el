@@ -300,29 +300,6 @@ the new algorithm is confusing, like in python or ruby."
   (add-hook 'python-mode-hook #'+evil|simple-matchit))
 
 
-(def-package! evil-snipe
-  :commands (evil-snipe-mode evil-snipe-override-mode
-             evil-snipe-local-mode evil-snipe-override-local-mode)
-  :after-call pre-command-hook
-  :init
-  (setq evil-snipe-smart-case t
-        evil-snipe-scope 'line
-        evil-snipe-repeat-scope 'visible
-        evil-snipe-char-fold t)
-  :config
-  (add-to-list 'evil-snipe-disabled-modes 'Info-mode nil #'eq)
-  (evil-snipe-mode +1)
-  (evil-snipe-override-mode +1))
-
-
-(def-package! evil-surround
-  :commands (global-evil-surround-mode
-             evil-surround-edit
-             evil-Surround-edit
-             evil-surround-region)
-  :config (global-evil-surround-mode 1))
-
-
 (def-package! evil-vimish-fold
   :commands (evil-vimish-fold/next-fold evil-vimish-fold/previous-fold
              evil-vimish-fold/delete evil-vimish-fold/delete-all

@@ -47,37 +47,55 @@
     (map! (:localleader
             (:map clojure-mode-map
               "'"  #'cider-jack-in
-              "\"" #'cider-jack-in-clojurescript)
+              "\"" #'cider-jack-in-clojurescript
+              "=" #'cider-format-buffer)
             (:map cider-mode-map
+              ;; debug
+              (:prefix "d"
+                "b" #'cider-debug-defun-at-point
+                "v" #'cider-inspect)
+
               ;; eval
               (:prefix "e"
-                "d" #'cider-eval-defun-at-point
-                "D" #'cider-insert-defun-in-repl
+                ";" #'cider-eval-defun-to-comment
+                "f" #'cider-eval-defun-at-point
+                "F" #'cider-insert-defun-in-repl
                 "e" #'cider-eval-last-sexp
                 "E" #'cider-insert-last-sexp-in-repl
+                "m" #'cider-macroexpand-1
+                "M" #'cider-macroexpand-all
                 "r" #'cider-eval-region
+                "P" #'cider-pprint-eval-last-sexp
                 "R" #'cider-insert-region-in-repl
-                "u" #'cider-undef)
+                "u" #'cider-undef
+                "w" #'cider-eval-last-sexp-and-replace)
+
               ;; go/jump
               (:prefix "g"
                 "b" #'cider-pop-back
                 "g" #'cider-find-var
-                "n" #'cider-find-ns)
+                "n" #'cider-find-ns
+                "c" 'cider-classpath
+                "e" 'cider-jump-to-compilation-error
+                "r" 'cider-find-resource
+                "s" 'cider-browse-spec
+                "S" 'cider-browse-spec-all)
+
               ;; help
               (:prefix "h"
-                "n" #'cider-find-ns
+                "c" #'cider-cheatsheet
+                "n" #'cider-browse-ns
+                "N" #'cider-browse-ns-all
                 "a" #'cider-apropos
                 "d" #'cider-doc
-                "g" #'cider-grimoire-web
+                "g" #'cider-grimoire
                 "j" #'cider-javadoc)
+
               ;; inspect
               (:prefix "i"
                 "i" #'cider-inspect
                 "r" #'cider-inspect-last-result)
-              ;; macro
-              (:prefix "m"
-                "e" #'cider-macroexpand-1
-                "E" #'cider-macroexpand-al)
+
               ;; namespace
               (:prefix "n"
                 "n" #'cider-browse-ns
@@ -86,11 +104,32 @@
               (:prefix "r"
                 "n" #'cider-repl-set-ns
                 "q" #'cider-quit
-                "r" #'cider-refresh
+                "r" #'cider-ns-refresh
                 "R" #'cider-restart
                 "b" #'cider-switch-to-repl-buffer
                 "B" #'+clojure/cider-switch-to-repl-buffer-and-switch-ns
-                "c" #'cider-repl-clear-buffer)))
+                "c" #'cider-repl-clear-buffer)
+
+              ;; test
+              (:prefix "t"
+                "b" #'cider-test-show-report
+                "l" #'cider-test-run-loaded-tests
+                "n" #'cider-test-run-ns-tests
+                "p" #'cider-test-run-project-tests
+                "r" #'cider-test-rerun-failed-tests
+                "t" #'cider-test-run-test)
+
+              ;; profile
+              (:prefix "p"
+                "+" #'cider-profile-samples
+                "c" #'cider-profile-clear
+                "n" #'cider-profile-ns-toggle
+                "s" #'cider-profile-var-summary
+                "S" #'cider-profile-summary
+                "t" #'cider-profile-toggle
+                "v" #'cider-profile-var-profiled-p)))
+
+
 
           (:when (featurep! :feature evil +everywhere)
             :map cider-repl-mode-map :i [S-return] #'cider-repl-newline-and-indent

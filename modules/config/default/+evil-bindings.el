@@ -124,33 +124,6 @@
           "c"       #'+workspace/close-window-or-workspace
           "C-C"     #'ace-delete-window)
 
-        ;; Plugins
-        ;; evil-easymotion
-        :m  "gs"    #'+evil/easymotion  ; lazy-load `evil-easymotion'
-        (:after evil-easymotion
-          :map evilem-map
-          "a" (evilem-create #'evil-forward-arg)
-          "A" (evilem-create #'evil-backward-arg)
-          "s" (evilem-create #'evil-snipe-repeat
-                             :name 'evil-easymotion-snipe-forward
-                             :pre-hook (save-excursion (call-interactively #'evil-snipe-s))
-                             :bind ((evil-snipe-scope 'buffer)
-                                    (evil-snipe-enable-highlight)
-                                    (evil-snipe-enable-incremental-highlight)))
-          "S" (evilem-create #'evil-snipe-repeat
-                             :name 'evil-easymotion-snipe-backward
-                             :pre-hook (save-excursion (call-interactively #'evil-snipe-S))
-                             :bind ((evil-snipe-scope 'buffer)
-                                    (evil-snipe-enable-highlight)
-                                    (evil-snipe-enable-incremental-highlight)))
-          "SPC" #'avy-goto-char-timer
-          "/" (evilem-create #'evil-ex-search-next
-                             :pre-hook (save-excursion (call-interactively #'evil-ex-search-forward))
-                             :bind ((evil-search-wrap)))
-          "?" (evilem-create #'evil-ex-search-previous
-                             :pre-hook (save-excursion (call-interactively #'evil-ex-search-backward))
-                             :bind ((evil-search-wrap))))
-
         ;; text object plugins
         :textobj "x" #'evil-inner-xml-attr               #'evil-outer-xml-attr
         :textobj "a" #'evil-inner-arg                    #'evil-outer-arg
@@ -158,16 +131,6 @@
         :textobj "i" #'evil-indent-plus-i-indent         #'evil-indent-plus-a-indent
         :textobj "k" #'evil-indent-plus-i-indent-up      #'evil-indent-plus-a-indent-up
         :textobj "j" #'evil-indent-plus-i-indent-up-down #'evil-indent-plus-a-indent-up-down
-
-        ;; evil-snipe
-        (:after evil-snipe
-          :map evil-snipe-parent-transient-map
-          "C-;" (λ! (require 'evil-easymotion)
-                    (call-interactively
-                     (evilem-create #'evil-snipe-repeat
-                                    :bind ((evil-snipe-scope 'whole-buffer)
-                                           (evil-snipe-enable-highlight)
-                                           (evil-snipe-enable-incremental-highlight))))))
 
         ;; evil-surround
         :v "S" #'evil-surround-region
@@ -784,18 +747,6 @@ customized by changing `+default-repeat-forward-key' and
   (do-repeat! evil-ex-search-previous evil-ex-search-next evil-ex-search-previous)
   (do-repeat! evil-ex-search-forward evil-ex-search-next evil-ex-search-previous)
   (do-repeat! evil-ex-search-backward evil-ex-search-next evil-ex-search-previous)
-
-  ;; f/F/t/T/s/S
-  (setq evil-snipe-repeat-keys nil
-        evil-snipe-override-evil-repeat-keys nil) ; causes problems with remapped ;
-  (do-repeat! evil-snipe-f evil-snipe-repeat evil-snipe-repeat-reverse)
-  (do-repeat! evil-snipe-F evil-snipe-repeat evil-snipe-repeat-reverse)
-  (do-repeat! evil-snipe-t evil-snipe-repeat evil-snipe-repeat-reverse)
-  (do-repeat! evil-snipe-T evil-snipe-repeat evil-snipe-repeat-reverse)
-  (do-repeat! evil-snipe-s evil-snipe-repeat evil-snipe-repeat-reverse)
-  (do-repeat! evil-snipe-S evil-snipe-repeat evil-snipe-repeat-reverse)
-  (do-repeat! evil-snipe-x evil-snipe-repeat evil-snipe-repeat-reverse)
-  (do-repeat! evil-snipe-X evil-snipe-repeat evil-snipe-repeat-reverse)
 
   ;; */#
   (do-repeat! evil-visualstar/begin-search-forward

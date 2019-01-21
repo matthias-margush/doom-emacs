@@ -39,7 +39,6 @@ immediately runs it on the current candidate (ending the ivy session)."
   (setq ivy-height 15
         ivy-wrap t
         ivy-fixed-height-minibuffer t
-        projectile-completion-system 'ivy
         ;; Don't use ^ as initial input
         ivy-initial-inputs-alist nil
         ;; highlight til EOL
@@ -57,10 +56,6 @@ immediately runs it on the current candidate (ending the ivy session)."
 
   (after! yasnippet
     (add-to-list 'yas-prompt-functions #'+ivy-yas-prompt nil #'eq))
-
-  (map! [remap switch-to-buffer]       #'ivy-switch-buffer
-        [remap persp-switch-to-buffer] #'+ivy/switch-workspace-buffer
-        [remap imenu-anywhere]         #'ivy-imenu-anywhere)
 
   (ivy-mode +1)
 
@@ -90,17 +85,11 @@ immediately runs it on the current candidate (ending the ivy session)."
 (def-package! counsel
   :commands counsel-describe-face
   :init
-  (map! [remap apropos]                  #'counsel-apropos
-        [remap bookmark-jump]            #'counsel-bookmark
-        [remap describe-face]            #'counsel-faces
+  (map! [remap describe-face]            #'counsel-faces
         [remap describe-function]        #'counsel-describe-function
         [remap describe-variable]        #'counsel-describe-variable
         [remap execute-extended-command] #'counsel-M-x
-        [remap find-file]                #'counsel-find-file
-        [remap find-library]             #'counsel-find-library
-        [remap info-lookup-symbol]       #'counsel-info-lookup-symbol
         [remap imenu]                    #'counsel-imenu
-        [remap recentf-open-files]       #'counsel-recentf
         [remap org-capture]              #'counsel-org-capture
         [remap swiper]                   #'counsel-grep-or-swiper
         [remap evil-ex-registers]        #'counsel-evil-registers
@@ -159,12 +148,8 @@ immediately runs it on the current candidate (ending the ivy session)."
   :commands (counsel-projectile-find-file counsel-projectile-find-dir counsel-projectile-switch-to-buffer
              counsel-projectile-grep counsel-projectile-ag counsel-projectile-switch-project)
   :init
-  (map! [remap projectile-find-file]        #'+ivy/projectile-find-file
-        [remap projectile-find-dir]         #'counsel-projectile-find-dir
-        [remap projectile-switch-to-buffer] #'counsel-projectile-switch-to-buffer
-        [remap projectile-grep]             #'counsel-projectile-grep
-        [remap projectile-ag]               #'counsel-projectile-ag
-        [remap projectile-switch-project]   #'counsel-projectile-switch-project)
+  (map! [remap projectile-grep]             #'counsel-projectile-grep
+        [remap projectile-ag]               #'counsel-projectile-ag)
   :config
   ;; no highlighting visited files; slows down the filtering
   (ivy-set-display-transformer #'counsel-projectile-find-file nil))

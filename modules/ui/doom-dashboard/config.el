@@ -4,7 +4,7 @@
   "The name to use for the dashboard buffer.")
 
 (defvar +doom-dashboard-functions
-  '(doom-dashboard-widget-banner
+  '(;; doom-dashboard-widget-banner
     doom-dashboard-widget-shortmenu
     doom-dashboard-widget-loaded
     doom-dashboard-widget-footer)
